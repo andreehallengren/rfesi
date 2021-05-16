@@ -8,10 +8,10 @@ pub struct CharacterGroup<'a> {
 #[derive(Debug, Deserialize)]
 #[allow(missing_docs)]
 pub struct CharacterPublicInfo {
-    pub alliance_id: u64,
+    pub alliance_id: i32,
     pub ancestry_id: u16,
     pub birthday: String,
-    pub corporation_id: u64,
+    pub corporation_id: i32,
     pub description: String,
     pub gender: String,
     pub name: String,
@@ -22,8 +22,8 @@ pub struct CharacterPublicInfo {
 #[derive(Debug, Deserialize)]
 #[allow(missing_docs)]
 pub struct CorporationHistoryItem {
-    pub corporation_id: u64,
-    pub record_id: u64,
+    pub corporation_id: i32,
+    pub record_id: i32,
     pub start_date: String,
 }
 
@@ -39,9 +39,9 @@ pub struct CharacterPortraitInfo {
 #[derive(Debug, Deserialize)]
 #[allow(missing_docs)]
 pub struct CharacterAffiliation {
-    pub alliance_id: u64,
-    pub character: u64,
-    pub corporation: u64,
+    pub alliance_id: i32,
+    pub character: i32,
+    pub corporation: i32,
 }
 
 impl<'a> CharacterGroup<'a> {
@@ -51,7 +51,7 @@ impl<'a> CharacterGroup<'a> {
         "get_characters_character_id",
         RequestType::Public,
         CharacterPublicInfo,
-        (character_id: u64) => "{character_id}"
+        (character_id: i32) => "{character_id}"
     );
 
     api_get!(
@@ -60,7 +60,7 @@ impl<'a> CharacterGroup<'a> {
         "get_characters_character_id_corporationhistory",
         RequestType::Public,
         Vec<CorporationHistoryItem>,
-        (character_id: u64) => "{character_id}"
+        (character_id: i32) => "{character_id}"
     );
 
     api_get!(
@@ -69,7 +69,7 @@ impl<'a> CharacterGroup<'a> {
         "get_characters_character_id_portrait",
         RequestType::Public,
         CharacterPortraitInfo,
-        (character_id: u64) => "{character_id}"
+        (character_id: i32) => "{character_id}"
     );
 
     api_post!(
@@ -79,7 +79,7 @@ impl<'a> CharacterGroup<'a> {
         RequestType::Public,
         Vec<CharacterAffiliation>,
         ,
-        character_ids: &[u64],
+        character_ids: &[i32],
     );
 
     // more endpoints ...
