@@ -5,7 +5,7 @@ pub struct CharacterGroup<'a> {
     pub(crate) esi: &'a Esi,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 #[allow(missing_docs)]
 pub struct CharacterPublicInfo {
     pub alliance_id: i32,
@@ -19,7 +19,7 @@ pub struct CharacterPublicInfo {
     pub security_status: f64,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 #[allow(missing_docs)]
 pub struct CorporationHistoryItem {
     pub corporation_id: i32,
@@ -27,7 +27,7 @@ pub struct CorporationHistoryItem {
     pub start_date: String,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 #[allow(missing_docs)]
 pub struct CharacterPortraitInfo {
     pub px128x128: String,
@@ -36,7 +36,7 @@ pub struct CharacterPortraitInfo {
     pub px64x64: String,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 #[allow(missing_docs)]
 pub struct CharacterAffiliation {
     pub alliance_id: i32,
