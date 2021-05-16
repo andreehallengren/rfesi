@@ -186,6 +186,50 @@ macro_rules! api_get {
                 .await
         }
     };
+    (
+        $(#[$m:meta])*
+        $fn_name:ident,
+        $op_id:literal,
+        $visibility:expr,
+        $ret_type:ty,
+        $iparam:literal, $ivalue:literal,
+        $( ($param:ident: $param_t:ty) => $replace:literal ),*
+        $( ; $( ($qparam:ident: $qparam_t:ty) => $qreplace:literal ),+ )?
+        $( ; $( Optional($opt_qparam:ident: $opt_qparam_t:ty) => $opt_qreplace:literal ),+ )?
+    ) => {
+        $(#[$m])*
+        pub async fn $fn_name(
+            &self,
+            $( $param: $param_t, )*
+            $($( $qparam: $qparam_t, )*)?
+            $($( $opt_qparam: Option<$opt_qparam_t>, )*)?
+        ) -> EsiResult<$ret_type> {
+            let path = self
+                .esi
+                .get_endpoint_for_op_id($op_id)?
+                $(
+                    .replace($replace, &$param.to_string())
+                )*;
+            let params = vec![
+                $($(
+                    ($qreplace, $qparam.to_string()),
+                )+)?
+                ($iparam, $ivalue.to_string()),
+            ];
+            $(
+                let mut params = params; // avoids unnecessary 'mut' warning
+                $(
+                    if let Some($opt_qparam) = $opt_qparam {
+                        params.push(($opt_qreplace, $opt_qparam.to_string()));
+                    }
+                )+
+            )?
+            let params: Vec<(&str, &str)> = params.iter().map(|(a, b)| (*a, &**b)).collect();
+            self.esi.
+                query("GET", $visibility, &path, Some(&params), None)
+                .await
+        }
+    };
 }
 
 /// Create a function for calling a single endpoint

@@ -259,6 +259,41 @@ impl Esi {
         Ok(())
     }
 
+    #[allow(missing_docs)]
+    pub async fn refresh_tokens(&mut self) -> EsiResult<()> {
+        debug!("Refreshing tokens");
+
+        let mut headers = self.get_auth_headers()?;
+        headers.insert(reqwest::header::CONTENT_TYPE, "application/x-www-form-urlencoded".parse().unwrap());
+        headers.insert(reqwest::header::HOST, "login.eveonline.com".parse().unwrap());
+        headers.insert(reqwest::header::CONTENT_LENGTH, "0".parse().unwrap());
+
+        let query = &[
+            ("grant_type", "refresh_token"),
+            ("refresh_token", &self.refresh_token.as_ref().unwrap()),
+        ];
+
+        let resp = self
+            .client
+            .post(TOKEN_URL)
+            .headers(headers)
+            .query(query)
+            .send()
+            .await?;
+        if resp.status() != 200 {
+            error!(
+                "Got status {} when making call to authenticate",
+                resp.status()
+            );
+            return Err(EsiError::InvalidStatusCode(resp.status().as_u16()));
+        }
+        let data: AuthenticateResponse = resp.json().await?;
+        self.access_token = Some(data.access_token);
+        self.access_expiration = Some(data.expires_in + chrono::Utc::now().timestamp() as u64);
+        self.refresh_token = data.refresh_token;
+        Ok(())
+    }
+
     /// Make a request to ESI.
     ///
     /// This is mainly used as the underlying function for this

@@ -74,22 +74,22 @@ pub struct TypeDogmaEffect {
 #[derive(Debug, Deserialize)]
 #[allow(missing_docs)]
 pub struct Type {
-    capacity: Option<f64>,
-    description: String,
-    dogma_attributes: Option<Vec<TypeDogmaAttribute>>,
-    dogma_effects: Option<Vec<TypeDogmaEffect>>,
-    graphic_id: Option<i32>,
-    group_id: i32,
-    icon_id: Option<i32>,
-    market_group_id: Option<i32>,
-    mass: Option<f64>,
-    name: String,
-    packaged_volume: Option<f64>,
-    portion_size: Option<i32>,
-    published: bool,
-    radius: Option<f64>,
-    type_id: i32,
-    volume: Option<f64>,
+    pub capacity: Option<f64>,
+    pub description: String,
+    pub dogma_attributes: Option<Vec<TypeDogmaAttribute>>,
+    pub dogma_effects: Option<Vec<TypeDogmaEffect>>,
+    pub graphic_id: Option<i32>,
+    pub group_id: i32,
+    pub icon_id: Option<i32>,
+    pub market_group_id: Option<i32>,
+    pub mass: Option<f64>,
+    pub name: String,
+    pub packaged_volume: Option<f64>,
+    pub portion_size: Option<i32>,
+    pub published: bool,
+    pub radius: Option<f64>,
+    pub type_id: i32,
+    pub volume: Option<f64>,
 }
 
 impl<'a> UniverseGroup<'a> {
