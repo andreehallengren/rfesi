@@ -360,7 +360,7 @@ impl Esi {
             "{}{}",
             match request_type {
                 RequestType::Public => BASE_URL,
-                RequestType::Authenticated => OAUTH_URL,
+                RequestType::Authenticated => BASE_URL,
             },
             endpoint
         );
