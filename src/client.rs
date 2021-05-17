@@ -333,7 +333,7 @@ impl Esi {
         body: Option<&str>,
     ) -> EsiResult<T> {
         debug!(
-            "Making {} request to {:?}{} with query {:?}",
+            "Making {} request to {:?} {} with query {:?}",
             method, request_type, endpoint, query
         );
         if request_type == RequestType::Authenticated && self.access_token.is_none() {
