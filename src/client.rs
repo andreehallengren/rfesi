@@ -271,6 +271,7 @@ impl Esi {
         let query = &[
             ("grant_type", "refresh_token"),
             ("refresh_token", &self.refresh_token.as_ref().unwrap()),
+            ("scope", &self.scope)
         ];
 
         let resp = self
